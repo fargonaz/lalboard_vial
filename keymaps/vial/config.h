@@ -1,0 +1,4 @@
+#pragma once
+
+#define VIAL_KEYBOARD_UID                                                      \
+  { 0x20, 0xA3, 0xE7, 0x70, 0x05, 0xCC, 0x4B, 0x73 }
