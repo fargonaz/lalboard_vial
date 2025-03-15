@@ -21,7 +21,6 @@
 
 #include QMK_KEYBOARD_H
 
-// #include "../../lalboard.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -64,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         /*Down          Inner     Upper      Outer Upper      Outer Lower*/
         /*LT*/ KC_ESC, KC_ENTER, KC_BSPACE, KC_TAB, KC_ESC,
-        /*RT*/ KC_SPACE, KC_SPACE, MO(FUNC), KC_DEL, KC_INS),
+        /*RT*/ KC_SPACE, MO(2), MO(FUNC), KC_DEL, KC_INS),
 
 };
 

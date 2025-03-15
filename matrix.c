@@ -24,16 +24,15 @@
 
 #include "lalboard.h"
 #include "config.h"
-#include "debounce.h"
+
 #include "action.h"
 #include "gpio.h"
 #include "keyboard.h"
 #include "matrix.h"
 #include "print.h"
-#include "quantum.h"
 
-static const pin_t   row_pins[MATRIX_ROWS / 2]      = MATRIX_ROW_PINS;
-static const pin_t   col_pins[MATRIX_COLS]          = MATRIX_COL_PINS;
+static const pin_t row_pins[MATRIX_ROWS/2] = MATRIX_ROW_PINS;
+static const pin_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
 static const uint8_t col_pushed_states[MATRIX_COLS] = MATRIX_COL_PUSHED_STATES;
 
 static inline void setPinOutput_writeHigh(pin_t pin) {
@@ -51,7 +50,7 @@ static inline void setPinOutput_writeLow(pin_t pin) {
 }
 
 void matrix_init_custom(void) {
-    for (int row = 0; row < MATRIX_ROWS / 2; row++) {
+    for (int row = 0; row < MATRIX_ROWS/2; row++) {
         setPinOutput_writeHigh(row_pins[row]);
     }
 
@@ -77,7 +76,7 @@ matrix_row_t read_row(void) {
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     bool changed = false;
 
-    for (int row = 0; row < MATRIX_ROWS / 2; row++) {
+    for (int row = 0; row < MATRIX_ROWS/2; row++) {
         pin_t row_pin = row_pins[row];
         setPinOutput_writeLow(row_pin);
         wait_us(15);
@@ -94,7 +93,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
 }
 
 void matrix_power_down(void) {
-    for (int row = 0; row < MATRIX_ROWS / 2; row++) {
+    for (int row = 0; row < MATRIX_ROWS/2; row++) {
         setPinOutput_writeHigh(row_pins[row]);
     }
 }
