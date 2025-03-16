@@ -106,7 +106,7 @@ uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
 }
 
 void keyboard_post_init_user(void) {
-  // debug_enable=true;
+  debug_enable = true;
   // debug_matrix=true;
   // debug_keyboard=true;
   // debug_mouse=true;

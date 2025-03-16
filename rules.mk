@@ -6,6 +6,8 @@ SERIAL_DRIVER = vendor
 
 CUSTOM_MATRIX = lite
 
+SPLIT_KEYBOARD = yes
+
 # Project specific files
 SRC = matrix.c
 TAP_DANCE_ENABLE = yes
