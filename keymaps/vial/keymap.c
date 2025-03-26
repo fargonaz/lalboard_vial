@@ -41,9 +41,7 @@ enum custom_keycodes {
   CKC_DOT,
   SMTD_KEYCODES_END,
 };
-
 #include "sm_td.h"
-
 enum layer { NORMAL, FUNC };
 
 /* Declared weak so that it can easily be overridden. */
@@ -95,8 +93,8 @@ void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
 uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
   switch (keycode) {
   case CKC_M:
-    if (timeout == SMTD_TIMEOUT_TAP)
-      return 300;
+    if (timeout == SMTD_TIMEOUT_RELEASE)
+      return 220;
   case CKC_V:
     if (timeout == SMTD_TIMEOUT_TAP)
       return 300;

@@ -31,7 +31,7 @@
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is
  * not needed */
-#define DEBOUNCE 0
+#define DEBOUNCE 25
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 #define MAX_DEFERRED_EXECUTORS 10
 // #define EE_HANDS

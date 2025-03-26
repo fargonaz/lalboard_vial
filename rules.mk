@@ -6,9 +6,7 @@ SERIAL_DRIVER = vendor
 
 CUSTOM_MATRIX = lite
 
-SPLIT_KEYBOARD = yes
-
-# Project specific files
+#q Project specific files
 SRC = matrix.c
 TAP_DANCE_ENABLE = yes
 DEFERRED_EXEC_ENABLE = yes
