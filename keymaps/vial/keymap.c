@@ -93,7 +93,7 @@ void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
 uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
   switch (keycode) {
   case CKC_M:
-    if (timeout == SMTD_TIMEOUT_RELEASE)
+    if (timeout == SMTD_TIMEOUT_TAP)
       return 300;
   case CKC_V:
     if (timeout == SMTD_TIMEOUT_TAP)
