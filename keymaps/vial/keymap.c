@@ -24,12 +24,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-enum my_keycodes {
-  KC_NORMAL_HOLD = SAFE_RANGE,
-  KC_GAME_HOLD,
-};
-
-enum layer { NORMAL, FUNC };
+enum layer { NORMAL };
 
 /* Declared weak so that it can easily be overridden. */
 __attribute__((weak))
@@ -47,12 +42,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         /*R4*/ KC_O, KC_P, XXXXXXX, KC_DOT, XXXXXXX,
 
         /*Down          Inner     Upper      Outer Upper      Outer Lower*/
-        /*LT*/ KC_ESC, KC_ENTER, KC_BSPACE, KC_TAB, KC_ESC,
-        /*RT*/ KC_SPACE, MO(2), MO(FUNC), KC_DEL, KC_INS),
+        /*LT*/ MO(2), KC_ENTER, KC_BSPACE, KC_TAB, MO(1),
+        /*RT*/ KC_SPACE, MO(1), KC_SPACE, KC_DEL, KC_INS),
 
 };
 
 #include "sm_td.h"
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!process_smtd(keycode, record))
     return false;
@@ -76,19 +72,6 @@ smtd_resolution on_smtd_action(uint16_t keycode, smtd_action action,
   return SMTD_RESOLUTION_UNHANDLED;
 }
 
-/* uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
-  switch (keycode) {
-  case KC_M:
-    if (timeout == SMTD_TIMEOUT_TAP)
-      return 300;
-  case KC_V:
-    if (timeout == SMTD_TIMEOUT_TAP)
-      return 300;
-  }
-
-  return get_smtd_timeout_default(timeout);
-}
-*/
 void keyboard_post_init_user(void) {
   // debug_enable = true;
   //  debug_matrix=true;
