@@ -50,9 +50,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #include "sm_td.h"
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_smtd(keycode, record))
+  if (!process_smtd(keycode, record)) {
     return false;
-
+}
   return true;
 }
 
