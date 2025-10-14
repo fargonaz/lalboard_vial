@@ -52,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!process_smtd(keycode, record)) {
     return false;
-}
+  }
   return true;
 }
 
@@ -78,3 +78,5 @@ void keyboard_post_init_user(void) {
   //  debug_keyboard=true;
   //  debug_mouse=true;
 }
+
+
