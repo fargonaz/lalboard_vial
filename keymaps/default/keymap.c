@@ -24,14 +24,31 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define HOME_A LGUI_T(KC_A) // A acts as GUI (Cmd/Win) when held
+#define HOME_R LALT_T(KC_R) // S acts as Alt when held
+#define HOME_S LCTL_T(KC_S) // D acts as Shift when held
+#define HOME_T LSFT_T(KC_T) // F acts as Ctrl when held
+
+#define HOME_N RSFT_T(KC_N) // J acts as Ctrl when held
+#define HOME_E RCTL_T(KC_E) // K acts as Shift when held
+#define HOME_I RALT_T(KC_I) // L acts as Alt when held
+#define HOME_O RGUI_T(KC_O) // ; acts as GUI (Cmd/Win) when held
+
 enum my_keycodes {
-  KC_NORMAL = SAFE_RANGE,
+  KC_NORMAL_HOLD = SAFE_RANGE,
+  KC_GAME_HOLD,
 };
 
 enum layer {
   NORMAL,
+  NORMAL_HOLD,
   FUNC,
   NAS,
+  GAME,
+  GAME_HOLD,
+  GAME_MOD_1,
+  GAME_MOD_2,
+  NUM_LAYERS
 };
 
 enum tapdance {
@@ -69,22 +86,39 @@ tap_dance_action_t tap_dance_actions[] = {
 
 /* Declared weak so that it can easily be overridden. */
 __attribute__((weak))
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+const uint16_t PROGMEM keymaps[NUM_LAYERS][MATRIX_ROWS][MATRIX_COLS] = {
     [NORMAL] = LAYOUT(
         /*Center           North           East            South West*/
-        /*L1*/ KC_A, KC_Q, QK_CAPS_WORD_TOGGLE, KC_V, KC_ESC,
-        /*L2*/ KC_R, KC_W, KC_Z, KC_X, XXXXXXX,
-        /*L3*/ KC_S, KC_F, XXXXXXX, KC_C, XXXXXXX,
-        /*L4*/ KC_T, KC_D, KC_G, KC_B, KC_SCLN,
+        /*L1*/ HOME_A, KC_Q, XXXXXXX, KC_V, KC_ESC,
+        /*L2*/ HOME_R, KC_W, KC_Z, KC_X, XXXXXXX,
+        /*L3*/ HOME_S, KC_F, XXXXXXX, KC_C, XXXXXXX,
+        /*L4*/ HOME_T, KC_D, KC_G, KC_B, KC_SCLN,
 
-        /*R1*/ KC_N, KC_J, XXXXXXX, KC_K, KC_H,
-        /*R2*/ KC_E, KC_L, KC_PAGE_UP, KC_M, KC_U,
-        /*R3*/ KC_I, KC_Y, KC_PAGE_DOWN, KC_COMMA, KC_SLASH,
-        /*R4*/ KC_O, KC_P, XXXXXXX, KC_DOT, QK_COMBO_TOGGLE,
+        /*R1*/ HOME_N, KC_J, XXXXXXX, KC_K, KC_H,
+        /*R2*/ HOME_E, KC_L, KC_PAGE_UP, KC_M, KC_U,
+        /*R3*/ HOME_I, KC_Y, KC_PAGE_DOWN, KC_COMMA, KC_SLASH,
+        /*R4*/ HOME_O, KC_P, XXXXXXX, KC_DOT, XXXXXXX,
 
         /*Down          Inner     Upper      Outer Upper      Outer Lower*/
-        /*LT*/ MO(2), KC_ENTER, KC_BSPACE, KC_TAB, MO(1),
-        /*RT*/ KC_SPACE, MO(1), KC_SPACE, KC_DEL, KC_INS),
+        /*LT*/ MO(NAS), KC_ENTER, KC_BSPACE, KC_TAB, TG(NAS),
+        /*RT*/ KC_SPACE, KC_SPACE, MO(FUNC), KC_DEL, KC_INS),
+
+    [NORMAL_HOLD] = LAYOUT(
+        /*Center           North           East            South West*/
+        /*L1*/ _______, _______, _______, LCTL(KC_V), _______,
+        /*L2*/ _______, _______, _______, LCTL(KC_C), _______,
+        /*L3*/ _______, _______, _______, LCTL(KC_X), _______,
+        /*L4*/ DF(NORMAL), _______, _______, DF(GAME), _______,
+
+        /*R1*/ _______, _______, _______, _______, _______,
+        /*R2*/ _______, _______, _______, _______, _______,
+        /*R3*/ _______, _______, _______, _______, _______,
+        /*R4*/ _______, _______, _______, _______, _______,
+
+        /*Down             Inner           Upper           Outer Upper     Outer
+           Lower*/
+        /*LT*/ _______, _______, _______, _______, _______,
+        /*RT*/ _______, _______, _______, _______, _______),
 
     [NAS] = LAYOUT(
         /*Center           North           East            South West*/
@@ -99,7 +133,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         /*R4*/ TD(TD_10), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         /*Down             Inner           Upper           Outer Upper     Outer
            Lower*/
-        /*LT*/ TO(NORMAL), KC_ENTER, XXXXXXX, KC_TAB, KC_LCTRL,
+        /*LT*/ TO(NORMAL), KC_ENTER, KC_NORMAL_HOLD, KC_TAB, KC_LCTRL,
         /*RT*/ MO(NAS), KC_SPACE, TO(FUNC), KC_BSPACE, KC_LALT),
 
     [FUNC] = LAYOUT(
@@ -119,41 +153,102 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         /*Down             Inner           Upper           Outer Upper     Outer
            Lower*/
-        /*LT*/ KC_LSHIFT, KC_ENTER, XXXXXXX, KC_TAB, KC_LCTRL,
+        /*LT*/ KC_LSHIFT, KC_ENTER, KC_NORMAL_HOLD, KC_TAB, KC_LCTRL,
+        /*RT*/ MO(NAS), KC_SPACE, TO(FUNC), KC_BSPACE, KC_LALT),
+
+    [GAME] = LAYOUT(
+        /*Center           North           East            South West*/
+        /*L1*/ KC_W, KC_G, KC_I, KC_E, KC_F,
+        /*L2*/ KC_D, KC_T, KC_Y, KC_J, KC_GRAVE,
+        /*L3*/ KC_A, KC_COMMA, KC_X, KC_K, KC_ESC,
+        /*L4*/ KC_S, KC_Z, KC_V, KC_R, KC_DEL,
+
+        /*R1*/ KC_H, KC_G, KC_QUOTE, KC_M, KC_D,
+        /*R2*/ KC_T, KC_W, KC_GRAVE, KC_C, KC_F,
+        /*R3*/ KC_N, KC_V, XXXXXXX, KC_R, KC_B,
+        /*R4*/ KC_S, KC_Z, KC_BSLASH, KC_L, KC_RIGHT_PAREN,
+
+        /*Down             Inner           Upper           Outer Upper     Outer
+           Lower*/
+        /*LT*/ KC_LSHIFT, KC_SPACE, KC_GAME_HOLD, MO(GAME_MOD_1), KC_LALT,
+        /*RT*/ MO(NAS), KC_SPACE, TO(FUNC), KC_BSPACE, KC_LALT),
+
+    [GAME_HOLD] = LAYOUT(
+        /*Center           North           East            South West*/
+        /*L1*/ _______, _______, _______, LCTL(KC_V), _______,
+        /*L2*/ _______, _______, _______, LCTL(KC_C), _______,
+        /*L3*/ _______, _______, _______, LCTL(KC_X), _______,
+        /*L4*/ DF(NORMAL), _______, _______, DF(GAME), _______,
+
+        /*R1*/ _______, _______, _______, _______, _______,
+        /*R2*/ _______, _______, _______, _______, _______,
+        /*R3*/ _______, _______, _______, _______, _______,
+        /*R4*/ _______, _______, _______, _______, _______,
+
+        /*Down             Inner           Upper           Outer Upper     Outer
+           Lower*/
+        /*LT*/ _______, _______, _______, _______, _______,
+        /*RT*/ _______, _______, _______, _______, _______),
+
+    [GAME_MOD_1] = LAYOUT(
+        /*Center           North           East            South West*/
+        /*L1*/ KC_4, KC_F4, KC_5, KC_M, KC_0,
+        /*L2*/ KC_3, KC_F3, KC_F11, KC_8, KC_F7,
+        /*L3*/ KC_2, KC_F2, KC_F10, KC_7, KC_F6,
+        /*L4*/ KC_1, KC_F1, KC_F9, KC_6, KC_F5,
+
+        /*R1*/ KC_H, KC_G, KC_QUOTE, KC_M, KC_D,
+        /*R2*/ KC_T, KC_W, KC_GRAVE, KC_C, KC_F,
+        /*R3*/ KC_N, KC_V, XXXXXXX, KC_R, KC_B,
+        /*R4*/ KC_S, KC_Z, KC_BSLASH, KC_L, KC_RIGHT_PAREN,
+
+        /*Down             Inner           Upper           Outer Upper     Outer
+           Lower*/
+        /*LT*/ KC_LSHIFT, KC_ENTER, KC_GAME_HOLD, MO(GAME_MOD_1), KC_LCTRL,
+        /*RT*/ MO(NAS), KC_SPACE, TO(FUNC), KC_BSPACE, KC_LALT),
+
+    [GAME_MOD_2] = LAYOUT(
+        /*Center           North           East            South West*/
+        /*L1*/ KC_F8, KC_F4, KC_5, KC_9, KC_F8,
+        /*L2*/ KC_F7, KC_F3, KC_F11, KC_8, KC_F7,
+        /*L3*/ KC_F6, KC_F2, KC_F10, KC_7, KC_F6,
+        /*L4*/ KC_F5, KC_F1, KC_F9, KC_6, KC_F5,
+
+        /*R1*/ KC_H, KC_G, KC_QUOTE, KC_M, KC_D,
+        /*R2*/ KC_T, KC_W, KC_GRAVE, KC_C, KC_F,
+        /*R3*/ KC_N, KC_V, XXXXXXX, KC_R, KC_B,
+        /*R4*/ KC_S, KC_Z, KC_BSLASH, KC_L, KC_RIGHT_PAREN,
+
+        /*Down             Inner           Upper           Outer Upper     Outer
+           Lower*/
+        /*LT*/ KC_LSHIFT, KC_ENTER, KC_GAME_HOLD, MO(GAME_MOD_1), KC_LCTRL,
         /*RT*/ MO(NAS), KC_SPACE, TO(FUNC), KC_BSPACE, KC_LALT),
 };
 
-#include "sm_td.h"
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_smtd(keycode, record)) {
-    return false;
-  }
-  return true;
-}
-
-smtd_resolution on_smtd_action(uint16_t keycode, smtd_action action,
-                               uint8_t tap_count) {
   switch (keycode) {
-
-    SMTD_MT(KC_V, KC_LEFT_GUI)
-    SMTD_MT(KC_X, KC_LEFT_ALT)
-    SMTD_MT(KC_C, KC_LEFT_CTRL)
-    SMTD_MT(KC_B, KC_LSFT)
-    SMTD_MT(KC_DOT, KC_LEFT_GUI)
-    SMTD_MT(KC_COMMA, KC_LEFT_ALT)
-    SMTD_MT(KC_M, KC_LEFT_CTRL)
-    SMTD_MT(KC_K, KC_LSFT)
+  case KC_NORMAL_HOLD:
+    if (record->event.pressed) {
+      layer_clear();
+      default_layer_set(1 << NORMAL);
+      layer_on(NORMAL_HOLD);
+    } else {
+      layer_off(NORMAL_HOLD);
+    }
+    return false;
+  case KC_GAME_HOLD:
+    if (record->event.pressed) {
+      layer_clear();
+      default_layer_set(1 << GAME);
+      layer_on(GAME_HOLD);
+    } else {
+      layer_off(GAME_HOLD);
+    }
+    return false;
+  default:
+    return true;
   }
-  return SMTD_RESOLUTION_UNHANDLED;
 }
-
-enum combos { LP, RP };
-
-const uint16_t PROGMEM left_parenthesis[] = {KC_T, KC_S, COMBO_END};
-const uint16_t PROGMEM right_parenthesis[] = {KC_N, KC_E, COMBO_END};
-combo_t key_combos[2] = {COMBO(left_parenthesis, LSFT(KC_9)),
-                         COMBO(right_parenthesis, LSFT(KC_0))};
 
 void keyboard_post_init_user(void) {
   debug_enable = true;

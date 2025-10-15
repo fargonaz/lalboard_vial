@@ -6,11 +6,10 @@ SERIAL_DRIVER = vendor
 
 CUSTOM_MATRIX = lite
 
-#q Project specific files
+# Project specific files
 SRC = matrix.c
-TAP_DANCE_ENABLE = yes
+
+#TAP_DANCE_ENABLE = yes
 DEFERRED_EXEC_ENABLE = yes
 VIAL_INSECURE = yes
-CAPS_WORD_ENABLE = yes
-COMBO_ENABLE = yes
-MOUSEKEY_ENABLE = yes
+#COMBO_ENABLE = yes 
