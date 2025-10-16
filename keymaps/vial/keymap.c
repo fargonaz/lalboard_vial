@@ -29,7 +29,7 @@ enum my_keycodes {
   KC_GAME_HOLD,
 };
 
-enum custom_keycodes {
+/* enum custom_keycodes {
   SMTD_KEYCODES_BEGIN = SAFE_RANGE,
   CKC_V, // reads as C(ustom) + KC_A, but you may give any name here
   CKC_X,
@@ -41,7 +41,7 @@ enum custom_keycodes {
   CKC_DOT,
   SMTD_KEYCODES_END,
 };
-
+*/
 #include "sm_td.h"
 
 enum layer { NORMAL, FUNC };
